@@ -14,7 +14,7 @@ import static io.github.pruggirello.surrounding.logs.value.SurroundingType.ALL;
 @Target(ElementType.METHOD)
 public @interface SurroundingLogs {
 
-    String logLevel();
+    String logLevel() default "";
 
     SurroundingType surroundingType() default ALL;
 

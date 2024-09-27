@@ -32,7 +32,6 @@ public class SurroundingLogsAspect {
 
     @Around("@annotation(io.github.pruggirello.surrounding.logs.annotation.SurroundingLogs)")
     public Object surroundingLogs(ProceedingJoinPoint joinPoint) throws Throwable {
-        System.out.println("Inside aspect");
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = joinPoint.getTarget().getClass().getMethod(methodSignature.getName(), methodSignature.getParameterTypes());
         SurroundingLogs annotation = method.getAnnotation(SurroundingLogs.class);
@@ -56,7 +55,7 @@ public class SurroundingLogsAspect {
         if (isNotBlank(executor.getErrorName())) {
             return Level.ERROR;
         }
-        if (nonNull(annotation.logLevel()) && EnumUtils.isValidEnum(Level.class, annotation.logLevel())) {
+        if (isNotBlank(annotation.logLevel()) && EnumUtils.isValidEnum(Level.class, annotation.logLevel())) {
             return Level.valueOf(annotation.logLevel());
         }
         return Level.valueOf(loggingLevel);

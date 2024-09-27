@@ -141,3 +141,8 @@ This comprehensive logging approach helps developers quickly understand the perf
     ```
 
 These examples demonstrate how to utilize the `@SurroundingLogs` annotation with different configurations to achieve various logging behaviors.
+
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

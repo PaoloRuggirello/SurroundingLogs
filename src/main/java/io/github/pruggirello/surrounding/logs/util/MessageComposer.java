@@ -25,7 +25,7 @@ public class MessageComposer {
 
     public String composeLogMessage(SurroundingLogs annotation, Method method, JoinPointExecutor executor) {
         StringJoiner messageJoiner = new StringJoiner("\n")
-                .add("Surrounding Logs of Method " + getMethodPath(method));
+                .add("SurroundingLogs of method - " + getMethodSignature(method, executor.getJoinPoint()) + " - in class " + getMethodPath(method));
 
         if (asList(ALL, BEFORE).contains(annotation.surroundingType())) {
             messageJoiner.add(createInitMethodLog(method, executor.getJoinPoint()));
@@ -46,7 +46,8 @@ public class MessageComposer {
         for (int i = 0; i < numberOfParameters; i++) {
             Parameter methodParameter = method.getParameters()[i];
             try {
-                parameters.add(methodParameter + "=" + joinPoint.getArgs()[i]);
+                Object arg = joinPoint.getArgs()[i];
+                parameters.add(arg.getClass().getSimpleName() + " " + method.getParameters()[i].getName() + "=" + arg);
             } catch (Exception e) {
                 log.warn("Impossible to convert parameter {}", methodParameter.getName());
             }
@@ -68,7 +69,7 @@ public class MessageComposer {
         StringJoiner endMessage = new StringJoiner(" - ")
                 .add("Ended execution of method")
                 .add(methodPath);
-        if(isNotBlank(executor.getErrorName())) {
+        if (isNotBlank(executor.getErrorName())) {
             endMessage.add("with error " + executor.getErrorName());
             endMessage.add(executor.getErrorMessage());
         }
@@ -96,6 +97,26 @@ public class MessageComposer {
 
     private String getMethodPath(Method method) {
         return method.getDeclaringClass().getSimpleName() + "." + method.getName();
+    }
+
+    private String getMethodSignature(Method method, JoinPoint joinPoint) {
+        StringJoiner parametersJoiner = new StringJoiner(", ");
+        int numberOfParameters = joinPoint.getArgs().length;
+        for (int i = 0; i < numberOfParameters; i++) {
+            try {
+                parametersJoiner.add(joinPoint.getArgs()[i].getClass().getSimpleName() + " " + method.getParameters()[i].getName());
+            } catch (Exception e) {
+                log.warn("Impossible to convert method signature parameter for method: {}", method);
+            }
+        }
+
+        String signature = method.getName() + "(" + parametersJoiner + ")";
+
+        return new StringJoiner(" ")
+                .add(method.getReturnType().getSimpleName())
+                .add(signature)
+                .toString();
+
     }
 
 }

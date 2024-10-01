@@ -5,12 +5,12 @@ import io.github.pruggirello.surrounding.logs.util.JoinPointExecutor;
 import io.github.pruggirello.surrounding.logs.util.MessageComposer;
 import io.github.pruggirello.surrounding.logs.util.SurroundingLogsProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.EnumUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,6 @@ import java.lang.reflect.Method;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-@Slf4j
 @Aspect
 @Component
 @RequiredArgsConstructor
@@ -42,7 +41,7 @@ public class SurroundingLogsAspect {
             executor.proceed();
         } finally {
             String message = messageComposer.composeLogMessage(annotation, method, executor);
-            log.atLevel(computeLoggingLevel(executor, annotation)).log(message);
+            LoggerFactory.getLogger(joinPoint.getTarget().getClass()).atLevel(computeLoggingLevel(executor, annotation)).log(message);
         }
 
         return executor.getResult();

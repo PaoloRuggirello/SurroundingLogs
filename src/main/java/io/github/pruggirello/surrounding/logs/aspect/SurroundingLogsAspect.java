@@ -3,6 +3,7 @@ package io.github.pruggirello.surrounding.logs.aspect;
 import io.github.pruggirello.surrounding.logs.annotation.SurroundingLogs;
 import io.github.pruggirello.surrounding.logs.util.JoinPointExecutor;
 import io.github.pruggirello.surrounding.logs.util.MessageComposer;
+import io.github.pruggirello.surrounding.logs.util.SurroundingLogsProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.EnumUtils;
@@ -11,7 +12,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.event.Level;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -24,9 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @RequiredArgsConstructor
 public class SurroundingLogsAspect {
 
-    @Value("${surrounding-logs.level:DEBUG}")
-    private String loggingLevel;
-
+    private final SurroundingLogsProperties surroundingLogsProperties;
     private final MessageComposer messageComposer;
 
     @Around("@annotation(io.github.pruggirello.surrounding.logs.annotation.SurroundingLogs)")
@@ -57,6 +55,6 @@ public class SurroundingLogsAspect {
         if (isNotBlank(annotation.logLevel()) && EnumUtils.isValidEnum(Level.class, annotation.logLevel())) {
             return Level.valueOf(annotation.logLevel());
         }
-        return Level.valueOf(loggingLevel);
+        return Level.valueOf(surroundingLogsProperties.getLevel());
     }
 }

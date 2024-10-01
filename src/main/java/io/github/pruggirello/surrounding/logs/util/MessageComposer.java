@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +114,7 @@ public class MessageComposer {
         String signature = method.getName() + "(" + parametersJoiner + ")";
 
         return new StringJoiner(" ")
+                .add(Modifier.toString(method.getModifiers()))
                 .add(method.getReturnType().getSimpleName())
                 .add(signature)
                 .toString();

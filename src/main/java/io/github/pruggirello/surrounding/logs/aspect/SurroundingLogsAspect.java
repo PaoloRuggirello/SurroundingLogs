@@ -49,7 +49,7 @@ public class SurroundingLogsAspect {
 
     private Level computeLoggingLevel(JoinPointExecutor executor, SurroundingLogs annotation) {
         if (isNotBlank(executor.getErrorName())) {
-            return Level.ERROR;
+            return Level.valueOf(surroundingLogsProperties.getErrorLevel());
         }
         if (isNotBlank(annotation.logLevel()) && EnumUtils.isValidEnum(Level.class, annotation.logLevel())) {
             return Level.valueOf(annotation.logLevel());

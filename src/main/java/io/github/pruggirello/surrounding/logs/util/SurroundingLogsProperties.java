@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.slf4j.event.Level;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.annotation.AliasFor;
 
 @Setter
 @Getter
@@ -23,4 +24,9 @@ public class SurroundingLogsProperties {
      * Default logging level of @SurroundingLogs logs annotation
      */
     private String level = "DEBUG";
+
+    /**
+     * Logging level to use when an exception occurs
+     */
+    private String errorLevel = "ERROR";
 }

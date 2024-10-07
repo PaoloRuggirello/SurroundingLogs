@@ -1,13 +1,12 @@
 package io.github.pruggirello.surrounding.logs.util;
 
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.StringJoiner;
 
 @Setter
-@ToString
 public class ExecutionTime {
     private Instant start;
     private Instant end;
@@ -21,5 +20,15 @@ public class ExecutionTime {
     public void executionEnded() {
         this.end = Instant.now();
         this.durationInMs = ChronoUnit.MILLIS.between(this.start, this.end);
+    }
+
+
+    @Override
+    public String toString() {
+        return new StringJoiner(" - ")
+                .add("execution started at " + start)
+                .add("execution ended at " + end)
+                .add("duration: " + durationInMs + " ms")
+                .toString();
     }
 }

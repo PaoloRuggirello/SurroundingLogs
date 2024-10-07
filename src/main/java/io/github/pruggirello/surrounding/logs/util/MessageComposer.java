@@ -48,7 +48,7 @@ public class MessageComposer {
 
 
     private String formatRow(String prefix, String message) {
-        return new StringJoiner(": ")
+        return new StringJoiner(" -> ")
                 .add(prefix)
                 .add(message)
                 .toString();
@@ -83,7 +83,7 @@ public class MessageComposer {
             endMessage.add(executor.getErrorMessage());
         }
         try {
-            String resultMsg = "Response type " + method.getReturnType().getSimpleName() + " = " + executor.getResult();
+            String resultMsg = method.getReturnType().getSimpleName() + " = " + executor.getResult();
             return endMessage
                     .add(resultMsg)
                     .toString();

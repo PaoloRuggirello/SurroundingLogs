@@ -16,7 +16,7 @@ import static io.github.pruggirello.surrounding.logs.value.SurroundingType.AFTER
 import static io.github.pruggirello.surrounding.logs.value.SurroundingType.ALL;
 import static io.github.pruggirello.surrounding.logs.value.SurroundingType.BEFORE;
 import static java.util.Arrays.asList;
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -26,22 +26,36 @@ public class MessageComposer {
 
     public String composeLogMessage(SurroundingLogs annotation, Method method, JoinPointExecutor executor) {
         StringJoiner messageJoiner = new StringJoiner("\n")
-                .add("SurroundingLogs of method - " + getMethodSignature(method, executor.getJoinPoint()) + " - in class " + getMethodPath(method));
+                .add("SurroundingLogs of method - " + getMethodPath(method));
+
+        messageJoiner.add(formatRow("Method signature", getMethodSignature(method, executor.getJoinPoint())));
 
         if (asList(ALL, BEFORE).contains(annotation.surroundingType())) {
-            messageJoiner.add(createInitMethodLog(method, executor.getJoinPoint()));
+            String startMessage = createStartMethodLog(method, executor.getJoinPoint());
+            messageJoiner.add(formatRow("Method input", startMessage));
         }
 
         if (asList(ALL, AFTER).contains(annotation.surroundingType())) {
-            messageJoiner.add(createEndMethodLog(method, executor));
+            String endMessage = createEndMethodLog(method, executor);
+            messageJoiner.add(formatRow("Method output", endMessage));
         }
 
-        messageJoiner.add(executionTimeMessage(method, executor.getExecutionTime()));
+        if(nonNull(executor.getExecutionTime())) {
+            messageJoiner.add(formatRow("Execution time", executor.getExecutionTime().toString()));
+        }
         return messageJoiner.toString();
     }
 
-    private String createInitMethodLog(Method method, JoinPoint joinPoint) {
-        String methodPath = getMethodPath(method);
+
+    private String formatRow(String prefix, String message) {
+        return new StringJoiner(": ")
+                .add(prefix)
+                .add(message)
+                .toString();
+    }
+
+
+    private String createStartMethodLog(Method method, JoinPoint joinPoint) {
         int numberOfParameters = joinPoint.getArgs().length;
         List<String> parameters = new ArrayList<>();
         for (int i = 0; i < numberOfParameters; i++) {
@@ -54,11 +68,8 @@ public class MessageComposer {
             }
         }
 
-        StringJoiner messageJoiner = new StringJoiner(" - ")
-                .add("Init execution of method")
-                .add(methodPath);
+        StringJoiner messageJoiner = new StringJoiner(" - ");
         if (isNotEmpty(parameters)) {
-            messageJoiner.add("with parameters");
             parameters.forEach(messageJoiner::add);
         }
 
@@ -66,12 +77,9 @@ public class MessageComposer {
     }
 
     private String createEndMethodLog(Method method, JoinPointExecutor executor) {
-        String methodPath = getMethodPath(method);
-        StringJoiner endMessage = new StringJoiner(" - ")
-                .add("Ended execution of method")
-                .add(methodPath);
+        StringJoiner endMessage = new StringJoiner(" - ");
         if (isNotBlank(executor.getErrorName())) {
-            endMessage.add("with error " + executor.getErrorName());
+            endMessage.add("Error " + executor.getErrorName());
             endMessage.add(executor.getErrorMessage());
         }
         try {
@@ -83,17 +91,6 @@ public class MessageComposer {
             log.warn("Impossible to convert output parameter of method: {}", method.getName());
         }
         return endMessage.toString();
-    }
-
-    private String executionTimeMessage(Method method, ExecutionTime executionTime) {
-        if (isNull(executionTime)) {
-            return "";
-        }
-        return new StringJoiner(" ")
-                .add("Execution Time info of method:")
-                .add(getMethodPath(method))
-                .add(executionTime.toString())
-                .toString();
     }
 
     private String getMethodPath(Method method) {

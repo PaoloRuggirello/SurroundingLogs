@@ -8,7 +8,7 @@
         <version>3.3.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.github.PaoloRuggirello</groupId>
+    <groupId>io.github.paoloruggirello</groupId>
     <artifactId>surrounding-logs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -24,7 +24,7 @@
         <developer>
             <name>Paolo Ruggirello</name>
             <email>ruggirello99@hotmail.it</email>
-            <organization>io.github.PaoloRuggirello</organization>
+            <organization>io.github.paoloruggirello</organization>
             <organizationUrl>https://github.com/PaoloRuggirello</organizationUrl>
         </developer>
     </developers>

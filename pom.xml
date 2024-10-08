@@ -8,11 +8,33 @@
         <version>3.3.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>io.github.pruggirello</groupId>
+    <groupId>com.github.PaoloRuggirello</groupId>
     <artifactId>surrounding-logs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
+
+    <!--    Project info -->
     <name>surrounding-logs</name>
-    <description>library containing annotation to perform surrounding logs</description>
+    <description>Lightweight and flexible Java library that allows automatic logging of method input, output, and execution time through an annotation.</description>
+    <url>https://github.com/PaoloRuggirello/SurroundingLogs</url>
+    <!--    End project info -->
+
+    <!--    Developer info-->
+    <developers>
+        <developer>
+            <name>Paolo Ruggirello</name>
+            <email>ruggirello99@hotmail.it</email>
+            <organization>io.github.PaoloRuggirello</organization>
+            <organizationUrl>https://github.com/PaoloRuggirello</organizationUrl>
+        </developer>
+    </developers>
+    <!--    End developer info-->
+
+    <scm>
+        <connection>scm:git:git://github.com/PaoloRuggirello/SurroundingLogs.git</connection>
+        <developerConnection>scm:git:ssh://github.com:PaoloRuggirello/SurroundingLogs.git</developerConnection>
+        <url>https://github.com/PaoloRuggirello/SurroundingLogs</url>
+    </scm>
 
     <properties>
         <java.version>17</java.version>
@@ -86,5 +108,12 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
 
 </project>

@@ -10,7 +10,7 @@
     </parent>
     <groupId>io.github.paoloruggirello</groupId>
     <artifactId>surrounding-logs</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
 
 
     <!--    Project info -->
@@ -37,6 +37,13 @@
         <developerConnection>scm:git:ssh://github.com:PaoloRuggirello/SurroundingLogs.git</developerConnection>
         <url>https://github.com/PaoloRuggirello/SurroundingLogs</url>
     </scm>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
 
     <properties>
         <java.version>17</java.version>
@@ -82,12 +89,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.6.0</version>
         </dependency>
     </dependencies>
 
@@ -175,11 +176,11 @@
         </pluginManagement>
     </build>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <url>https://central.sonatype.com/api/v1/publisher</url>
+        </repository>
+    </distributionManagement>
 
 </project>

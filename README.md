@@ -21,7 +21,7 @@ To add **Surrounding Logs** to your project, include the following dependency in
 
 ```xml
 <dependency>
-    <groupId>io.github.pruggirello</groupId>
+    <groupId>io.github.paoloruggirello</groupId>
     <artifactId>surrounding-logs</artifactId>
     <version>${latestVersion}</version>
 </dependency>

@@ -2,6 +2,8 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com/licenses/mit/)
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.paoloruggirello/surrounding-logs/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.paoloruggirello/surrounding-logs)
+
 **Surrounding Logs** is a lightweight and flexible Java library that allows automatic logging of method input, output, and execution time through an annotation. By applying the `@SurroundingLogs` annotation to any method, logs are generated both before and after the method execution, providing clear insight into how the method operates, including its input parameters, returned values, and any potential exceptions.
 
 The library is highly customizable, allowing you to tailor its behavior to fit your specific needs:

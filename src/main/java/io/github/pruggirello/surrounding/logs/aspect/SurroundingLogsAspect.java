@@ -15,6 +15,7 @@ import org.slf4j.event.Level;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.StringJoiner;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -37,10 +38,12 @@ public class SurroundingLogsAspect {
                 .trackExecutionTime(annotation.includeExecutionTime())
                 .build();
 
+        StringJoiner logMessage = messageComposer.startComposingLogMessage(annotation, method, executor);
+
         try {
             executor.proceed();
         } finally {
-            String message = messageComposer.composeLogMessage(annotation, method, executor);
+            String message = messageComposer.composeLogMessage(annotation, method, executor, logMessage);
             LoggerFactory.getLogger(joinPoint.getTarget().getClass()).atLevel(computeLoggingLevel(executor, annotation)).log(message);
         }
 

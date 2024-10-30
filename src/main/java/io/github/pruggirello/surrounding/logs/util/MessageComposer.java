@@ -24,7 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Component
 public class MessageComposer {
 
-    public String composeLogMessage(SurroundingLogs annotation, Method method, JoinPointExecutor executor) {
+    public StringJoiner startComposingLogMessage(SurroundingLogs annotation, Method method, JoinPointExecutor executor) {
         StringJoiner messageJoiner = new StringJoiner("\n")
                 .add("SurroundingLogs of method - " + getMethodPath(method));
 
@@ -35,6 +35,10 @@ public class MessageComposer {
             messageJoiner.add(formatRow("Method input", startMessage));
         }
 
+        return messageJoiner;
+    }
+
+    public String composeLogMessage(SurroundingLogs annotation, Method method, JoinPointExecutor executor, StringJoiner messageJoiner) {
         if (asList(ALL, AFTER).contains(annotation.surroundingType())) {
             String endMessage = createEndMethodLog(method, executor);
             messageJoiner.add(formatRow("Method output", endMessage));

@@ -17,8 +17,6 @@ import static io.github.pruggirello.surrounding.logs.value.SurroundingType.ALL;
 import static io.github.pruggirello.surrounding.logs.value.SurroundingType.BEFORE;
 import static java.util.Arrays.asList;
 import static java.util.Objects.nonNull;
-import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
 @Component
@@ -44,7 +42,7 @@ public class MessageComposer {
             messageJoiner.add(formatRow("Method output", endMessage));
         }
 
-        if(nonNull(executor.getExecutionTime())) {
+        if (nonNull(executor.getExecutionTime())) {
             messageJoiner.add(formatRow("Execution time", executor.getExecutionTime().toString()));
         }
         return messageJoiner.toString();
@@ -73,7 +71,7 @@ public class MessageComposer {
         }
 
         StringJoiner messageJoiner = new StringJoiner(" - ");
-        if (isNotEmpty(parameters)) {
+        if (!parameters.isEmpty()) {
             parameters.forEach(messageJoiner::add);
         }
 
@@ -119,7 +117,10 @@ public class MessageComposer {
                 .add(method.getReturnType().getSimpleName())
                 .add(signature)
                 .toString();
-
     }
 
+
+    public boolean isNotBlank(String s) {
+        return s != null && !s.trim().isEmpty();
+    }
 }

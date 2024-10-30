@@ -4,8 +4,8 @@ import io.github.pruggirello.surrounding.logs.annotation.SurroundingLogs;
 import io.github.pruggirello.surrounding.logs.util.JoinPointExecutor;
 import io.github.pruggirello.surrounding.logs.util.MessageComposer;
 import io.github.pruggirello.surrounding.logs.util.SurroundingLogsProperties;
+import io.github.pruggirello.surrounding.logs.value.LogLevel;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.EnumUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.StringJoiner;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Aspect
 @Component
@@ -51,12 +49,16 @@ public class SurroundingLogsAspect {
     }
 
     private Level computeLoggingLevel(JoinPointExecutor executor, SurroundingLogs annotation) {
-        if (isNotBlank(executor.getErrorName())) {
-            return Level.valueOf(surroundingLogsProperties.getErrorLevel());
+        try {
+            if (messageComposer.isNotBlank(executor.getErrorName())) {
+                return Level.valueOf(surroundingLogsProperties.getErrorLevel());
+            }
+            if (annotation.logLevel() != LogLevel.DEFAULT) {
+                return Level.valueOf(annotation.logLevel().name());
+            }
+            return Level.valueOf(surroundingLogsProperties.getLevel());
+        }catch (Exception e ) {
+            return Level.DEBUG;
         }
-        if (isNotBlank(annotation.logLevel()) && EnumUtils.isValidEnum(Level.class, annotation.logLevel())) {
-            return Level.valueOf(annotation.logLevel());
-        }
-        return Level.valueOf(surroundingLogsProperties.getLevel());
     }
 }

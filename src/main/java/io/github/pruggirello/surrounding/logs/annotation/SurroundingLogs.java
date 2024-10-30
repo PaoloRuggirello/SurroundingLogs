@@ -1,5 +1,6 @@
 package io.github.pruggirello.surrounding.logs.annotation;
 
+import io.github.pruggirello.surrounding.logs.value.LogLevel;
 import io.github.pruggirello.surrounding.logs.value.SurroundingType;
 
 import java.lang.annotation.ElementType;
@@ -26,7 +27,6 @@ import static io.github.pruggirello.surrounding.logs.value.SurroundingType.ALL;
  *   <li><strong>includeExecutionTime</strong>: Indicates whether to calculate and log the execution time of the method.
  *       When set to <strong>true</strong>, the execution time will be measured and logged; otherwise, it will not.</li>
  * </ul>
- *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -35,7 +35,7 @@ public @interface SurroundingLogs {
     /**
      * Logging level to be used for the method to which the annotation is applied.
      */
-    String logLevel() default "";
+    LogLevel logLevel() default LogLevel.DEFAULT;
 
     /**
      * Defines the type of logging for the method to which the annotation is applied.
@@ -45,7 +45,6 @@ public @interface SurroundingLogs {
      *   <li><strong>BEFORE</strong>: Logs only the input of the method.</li>
      *   <li><strong>AFTER</strong>: Logs only the output of the method.</li>
      * </ul>
-     *
      */
     SurroundingType surroundingType() default ALL;
 
@@ -53,7 +52,6 @@ public @interface SurroundingLogs {
      * Indicates whether to calculate and log the execution time of the method to which the annotation is applied.
      * When set to <strong>true</strong>, the execution time will be measured and logged.
      * When set to <strong>false</strong>, the execution time will not be recorded.
-     *
      */
     boolean includeExecutionTime() default false;
 }

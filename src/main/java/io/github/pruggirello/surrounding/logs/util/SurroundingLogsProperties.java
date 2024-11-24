@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.slf4j.event.Level;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.annotation.AliasFor;
 
 @Setter
 @Getter

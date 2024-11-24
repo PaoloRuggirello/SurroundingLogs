@@ -66,7 +66,7 @@ public class MessageComposer {
                 Object arg = joinPoint.getArgs()[i];
                 parameters.add(arg.getClass().getSimpleName() + " " + method.getParameters()[i].getName() + "=" + arg);
             } catch (Exception e) {
-                log.warn("Impossible to convert parameter {}", methodParameter.getName());
+                log.warn("Impossible to convert parameter {}", methodParameter.getName(), e);
             }
         }
 
@@ -90,7 +90,7 @@ public class MessageComposer {
                     .add(resultMsg)
                     .toString();
         } catch (Exception e) {
-            log.warn("Impossible to convert output parameter of method: {}", method.getName());
+            log.warn("Impossible to convert output parameter of method: {}", method.getName(), e);
         }
         return endMessage.toString();
     }
@@ -106,7 +106,7 @@ public class MessageComposer {
             try {
                 parametersJoiner.add(joinPoint.getArgs()[i].getClass().getSimpleName() + " " + method.getParameters()[i].getName());
             } catch (Exception e) {
-                log.warn("Impossible to convert method signature parameter for method: {}", method);
+                log.warn("Impossible to convert method signature parameter for method: {}", method, e);
             }
         }
 

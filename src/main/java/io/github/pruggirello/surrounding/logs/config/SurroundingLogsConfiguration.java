@@ -21,6 +21,6 @@ public class SurroundingLogsConfiguration {
 
     @PostConstruct
     private void postConstruct() {
-        log.info("SurroundingLogs loaded");
+        log.info("SurroundingLogs loaded - Paperino");
     }
 }

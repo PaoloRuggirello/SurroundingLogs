@@ -26,8 +26,8 @@ public class ExecutionTime {
     @Override
     public String toString() {
         return new StringJoiner(" - ")
-                .add("execution started at " + start)
-                .add("execution ended at " + end)
+                .add("start: " + start)
+                .add("end:" + end)
                 .add("duration: " + durationInMs + " ms")
                 .toString();
     }

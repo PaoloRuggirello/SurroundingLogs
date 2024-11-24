@@ -24,13 +24,14 @@ public class MessageComposer {
 
     public StringJoiner startComposingLogMessage(SurroundingLogs annotation, Method method, JoinPointExecutor executor) {
         StringJoiner messageJoiner = new StringJoiner("\n")
-                .add("SurroundingLogs of method - " + getMethodPath(method));
+                .add("SurroundingLogs")
+                .add(formatRow("method", getMethodPath(method)));
 
-        messageJoiner.add(formatRow("Method signature", getMethodSignature(method, executor.getJoinPoint())));
+        messageJoiner.add(formatRow("signature", getMethodSignature(method, executor.getJoinPoint())));
 
         if (asList(ALL, BEFORE).contains(annotation.surroundingType())) {
             String startMessage = createStartMethodLog(method, executor.getJoinPoint());
-            messageJoiner.add(formatRow("Method input", startMessage));
+            messageJoiner.add(formatRow("input", startMessage));
         }
 
         return messageJoiner;
@@ -39,18 +40,18 @@ public class MessageComposer {
     public String composeLogMessage(SurroundingLogs annotation, Method method, JoinPointExecutor executor, StringJoiner messageJoiner) {
         if (asList(ALL, AFTER).contains(annotation.surroundingType())) {
             String endMessage = createEndMethodLog(method, executor);
-            messageJoiner.add(formatRow("Method output", endMessage));
+            messageJoiner.add(formatRow("output", endMessage));
         }
 
         if (nonNull(executor.getExecutionTime())) {
-            messageJoiner.add(formatRow("Execution time", executor.getExecutionTime().toString()));
+            messageJoiner.add(formatRow("execution_time", executor.getExecutionTime().toString()));
         }
         return messageJoiner.toString();
     }
 
 
     private String formatRow(String prefix, String message) {
-        return new StringJoiner(" -> ")
+        return new StringJoiner(": ")
                 .add(prefix)
                 .add(message)
                 .toString();

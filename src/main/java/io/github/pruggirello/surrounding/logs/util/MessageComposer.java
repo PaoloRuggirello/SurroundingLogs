@@ -65,7 +65,8 @@ public class MessageComposer {
             Parameter methodParameter = method.getParameters()[i];
             try {
                 Object arg = joinPoint.getArgs()[i];
-                parameters.add(arg.getClass().getSimpleName() + " " + method.getParameters()[i].getName() + "=" + arg);
+                String variableType = arg != null ? arg.getClass().getSimpleName() : method.getParameters()[i].getParameterizedType().toString();
+                parameters.add(variableType + " " + method.getParameters()[i].getName() + "=" + arg);
             } catch (Exception e) {
                 log.warn("Impossible to convert parameter {}", methodParameter.getName(), e);
             }
@@ -105,7 +106,8 @@ public class MessageComposer {
         int numberOfParameters = joinPoint.getArgs().length;
         for (int i = 0; i < numberOfParameters; i++) {
             try {
-                parametersJoiner.add(joinPoint.getArgs()[i].getClass().getSimpleName() + " " + method.getParameters()[i].getName());
+                String variableType = joinPoint.getArgs()[i] != null ? joinPoint.getArgs()[i].getClass().getName() : method.getParameters()[i].getParameterizedType().toString();
+                parametersJoiner.add(variableType + " " + method.getParameters()[i].getName());
             } catch (Exception e) {
                 log.warn("Impossible to convert method signature parameter for method: {}", method, e);
             }
